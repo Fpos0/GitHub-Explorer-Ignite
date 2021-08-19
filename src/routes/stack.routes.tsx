@@ -5,6 +5,7 @@ import theme from '../global/styles/theme';
 
 import { Dashboard } from '../screens/Dashboard';
 import { Repository } from '../screens/Repository';
+import { TestScreen } from '../screens/TestScreen';
 import { Header } from '../components/Header';
 
 const stackRoutes = createStackNavigator();
@@ -24,15 +25,16 @@ const AppRoutes: React.FC = () => (
       headerTransparent: true
     }}
   >
-   <stackRoutes.Screen
-    name="Dashboard"
-    component={Dashboard}
-   />
 
-  <stackRoutes.Screen
-    name="Repository"
-    component={Repository}
-   /> 
+    <stackRoutes.Screen
+      name="Dashboard"
+      component={Dashboard}
+    />
+
+    <stackRoutes.Screen
+      name="Repository"
+      component={Repository}
+    />
 
   </stackRoutes.Navigator>
 )

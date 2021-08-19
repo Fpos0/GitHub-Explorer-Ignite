@@ -7,6 +7,12 @@ import { Card } from '../../components/Card';
 
 import { useRepositories } from '../../hooks/useRepositories';
 
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
+
 import {
   Container,
   AddGithubRepo,
@@ -25,26 +31,29 @@ export function Dashboard() {
   const { navigate } = useNavigation();
 
   const { addRepository, repositories } = useRepositories();
-
+  function handleInputText(text: string) {
+    setInputText(text);
+  }
   function handleAddRepository() {
     /**
      * TODO: 
      * - call addRepository function sending inputText value;
      * - clean inputText value.
      */
+    const repoToAdd = inputText;
+    addRepository(repoToAdd);
+    handleInputText('');
     inputRef.current?.blur();
   }
 
   function handleRepositoryPageNavigation(id: number) {
-    /**
-     * TODO - navigate to the Repository screen sending repository id.
-     * Remember to use the correct prop name (repositoryId) to the repositoy id:
-     * 
-     * navigate(SCREEN NAME, {
-     *  repositoryId: id of the repository
-     * })
-     */
+
+    navigate('Repository', {
+      repositoryId: id
+    })
   }
+
+
 
   return (
     <Background>
@@ -57,11 +66,7 @@ export function Dashboard() {
               ref={inputRef}
               placeholder="Digite aqui 'usuário/repositório'"
               value={inputText}
-              /**
-               * TODO - update inputText value when input text value 
-               * changes:
-               * onChangeText={YOUR CODE HERE}
-               */
+              onChangeText={handleInputText}
               onSubmitEditing={handleAddRepository}
               returnKeyType="send"
               autoCapitalize='none'
@@ -71,11 +76,7 @@ export function Dashboard() {
             <InputButton
               testID="input-button"
               onPress={handleAddRepository}
-            /**
-             * TODO - ensure to disable button when inputText is 
-             * empty (use disabled prop to this):
-             * disabled={CONDITION HERE}
-             */
+              disabled={!inputText}
             >
               <Icon name="search" size={20} />
             </InputButton>
@@ -99,6 +100,8 @@ export function Dashboard() {
             />
           )}
         />
+
+
       </Container>
     </Background>
   )
